@@ -41784,7 +41784,7 @@ $1(a){return a.x=this.a},
 $S:21}
 A.pN.prototype={}
 A.Hf.prototype={
-M(a){return new A.vL(new A.vU(null),"Ebook App",!1,null)}}
+M(a){return new A.vL(new A.vU(null),"Adminstration",!1,null)}}
 A.Gb.prototype={
 M(a){var s,r,q=null,p=$.cj(),o=t.Wo
 o=new A.pM(A.ayv(new A.pN("","","",0,0,"","","",""),t.Y_),A.b([],t.EH),A.en(q,q,q,t.X,t.xW),new A.jy(o),new A.jy(o),!1,!1)
