@@ -1,3 +1,4 @@
+import 'package:admin_mag_poul/view/ManageGarage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'Add_Pr.dart';
@@ -17,7 +18,7 @@ class _HomePageState extends State<HomePage> {
   // List of widgets for different tabs
   final List<Widget> _pages = [
     GarageFormView(),
-    Center(child: Text('Search Page', style: TextStyle(fontSize: 24))),
+    ManageGarage()
 
   ];
 
