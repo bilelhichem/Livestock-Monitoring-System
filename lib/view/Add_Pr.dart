@@ -63,8 +63,25 @@ class GarageFormView extends StatelessWidget {
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: controller.submitForm,
-              child: Text("Soumettre"),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blue, // Couleur de fond
+                foregroundColor: Colors.white, // Couleur du texte
+                shape: RoundedRectangleBorder( // Coins arrondis
+                  borderRadius: BorderRadius.circular(12), // Ajuster le rayon ici
+                ),
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15), // Padding interne
+                elevation: 5, // Ombre pour un effet d'élévation
+              ),
+              child: Text(
+                "Soumettre",
+                style: TextStyle(
+                  fontSize: 18, // Taille du texte
+                  fontWeight: FontWeight.bold, // Style gras
+                  letterSpacing: 1.5, // Espacement des lettres
+                ),
+              ),
             ),
+
           ],
         ),
       ),

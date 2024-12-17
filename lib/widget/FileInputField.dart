@@ -45,6 +45,17 @@ class FileInputField extends StatelessWidget {
               // Ouvre le sélecteur de fichier
               _pickFile(context);
             },
+
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blue, // Couleur de fond
+                foregroundColor: Colors.white, // Couleur du texte
+                shape: RoundedRectangleBorder( // Coins arrondis
+                  borderRadius: BorderRadius.circular(12), // Ajuster le rayon ici
+                ),
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15), // Padding interne
+                elevation: 5, // Ombre pour un effet d'élévation
+              ),
+
             child: Text(isImagePicker ? 'Sélectionner une image' : 'Sélectionner un fichier'),
           ),
         ],
