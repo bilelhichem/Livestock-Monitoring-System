@@ -5,7 +5,7 @@ import 'package:admin_mag_poul/controlers/ToggleController.dart';
 
 import '../widget/CardGarage.dart';
 
-// Vue principale
+
 class ManageGarage extends StatelessWidget {
   const ManageGarage({super.key});
 

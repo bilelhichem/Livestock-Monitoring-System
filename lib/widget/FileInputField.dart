@@ -1,34 +1,33 @@
 import 'package:flutter/material.dart';
-import 'package:file_picker/file_picker.dart';
+import 'dart:html' as html;
+import 'package:get/get.dart'; // Assuming you use GetX for state management
 
 class FileInputField extends StatelessWidget {
   final String label;
-  final Function(String) onChanged; // Callback pour retourner le chemin du fichier sélectionné
-  final bool isImagePicker; // Si true, utilise ImagePicker, sinon FilePicker
+  final Function(String) onChanged; // Callback for returning the file path
+  final bool isImagePicker; // If true, use ImagePicker, else use FilePicker
 
   const FileInputField({
     required this.label,
     required this.onChanged,
-    this.isImagePicker = false, // Choisir si c'est pour image ou fichier générique
+    this.isImagePicker = false, // Choose if it is for image or generic file
     Key? key,
   }) : super(key: key);
 
-  // Fonction pour choisir un fichier (image ou PDF)
-  Future<void> _pickFile(BuildContext context) async {
-    // Ouvre le sélecteur de fichier via file_picker
-    final result = await FilePicker.platform.pickFiles(
-      type: FileType.custom, // Sélection de tout type de fichier
-      allowedExtensions: isImagePicker ? ['jpg', 'jpeg', 'png'] : ['pdf', 'jpg', 'jpeg', 'png'],
-    );
-
-    if (result != null) {
-      // Retourne le chemin du fichier sélectionné
-      onChanged(result.files.single.path!);
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Aucun fichier sélectionné')),
-      );
-    }
+  void selectImage() {
+    final input = html.FileUploadInputElement();
+    input.accept = 'image/*'; // Accepts only images
+    input.onChange.listen((e) {
+      final files = input.files;
+      if (files?.isEmpty ?? true) return;
+      final reader = html.FileReader();
+      reader.readAsDataUrl(files![0]);
+      reader.onLoadEnd.listen((e) {
+        final imageUrl = reader.result as String;
+        onChanged(imageUrl); // Pass the image URL to the controller
+      });
+    });
+    input.click();
   }
 
   @override
@@ -42,20 +41,18 @@ class FileInputField extends StatelessWidget {
           const SizedBox(height: 8),
           ElevatedButton(
             onPressed: () {
-              // Ouvre le sélecteur de fichier
-              _pickFile(context);
+              // Open file picker
+              selectImage();
             },
-
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue, // Couleur de fond
-                foregroundColor: Colors.white, // Couleur du texte
-                shape: RoundedRectangleBorder( // Coins arrondis
-                  borderRadius: BorderRadius.circular(12), // Ajuster le rayon ici
-                ),
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15), // Padding interne
-                elevation: 5, // Ombre pour un effet d'élévation
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.blue, // Background color
+              foregroundColor: Colors.white, // Text color
+              shape: RoundedRectangleBorder( // Rounded corners
+                borderRadius: BorderRadius.circular(12), // Adjust radius here
               ),
-
+              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15), // Internal padding
+              elevation: 5, // Shadow for elevation effect
+            ),
             child: Text(isImagePicker ? 'Sélectionner une image' : 'Sélectionner un fichier'),
           ),
         ],

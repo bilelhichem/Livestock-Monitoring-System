@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
-import 'package:flutter/material.dart';
-
 import 'package:admin_mag_poul/data/models/Garage_info_model.dart';
+
+import 'RealiserPdf.dart';
 
 class GarageFormController extends GetxController {
   var garageForm = GarageInfo(
@@ -15,6 +15,10 @@ class GarageFormController extends GetxController {
     pieceIdentite: '',
     chequeBarre: '',
   ).obs;
+
+  // To store the selected image path for pieceIdentite
+  var pieceIdentiteImagePath = Rx<String>('');
+  var chequeBarreImagePath = Rx<String>('');
 
   void updateField(String fieldName, dynamic value) {
     switch (fieldName) {
@@ -41,9 +45,11 @@ class GarageFormController extends GetxController {
         break;
       case 'pieceIdentite':
         garageForm.update((form) => form!.pieceIdentite = value);
+        pieceIdentiteImagePath.value = value; // Update the image path
         break;
       case 'chequeBarre':
         garageForm.update((form) => form!.chequeBarre = value);
+        chequeBarreImagePath.value =value;
         break;
       default:
         throw Exception("Champ inconnu : $fieldName");
@@ -52,7 +58,20 @@ class GarageFormController extends GetxController {
 
   void submitForm() {
     if (_validateForm()) {
-      print("Formulaire soumis avec succès : ${garageForm.value}");
+      final formData = {
+        'prenom': garageForm.value.prenom,
+        'nom': garageForm.value.nom,
+        'lieu': garageForm.value.lieu,
+        'surfaceGarage': garageForm.value.surfaceGarage,
+        'quantiteMaxProduits': garageForm.value.quantiteMaxProduits,
+        'typeVolaille': garageForm.value.typeVolaille,
+        'nomVeterinaire': garageForm.value.nomVeterinaire,
+        'pieceIdentite': pieceIdentiteImagePath.value,
+        'chequeBarre': chequeBarreImagePath.value,
+      };
+
+      // Generate and download PDF
+      RealiserPdf.generateAndDownloadPdf(formData);
     } else {
       Get.snackbar("Erreur", "Veuillez remplir tous les champs correctement.");
     }
