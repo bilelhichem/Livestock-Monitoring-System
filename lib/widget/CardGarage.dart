@@ -1,4 +1,6 @@
+import 'package:admin_mag_poul/view/Add_Pr.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class CardExampleApp extends StatelessWidget {
   const CardExampleApp({super.key});
@@ -19,6 +21,66 @@ class CardExampleApp extends StatelessWidget {
 
 class CardExample extends StatelessWidget {
   const CardExample({super.key});
+
+  // Fonction pour afficher la boîte de dialogue de confirmation
+  void _showDeleteConfirmationDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Confirmation'),
+          content: const Text('Êtes-vous sûr de vouloir supprimer cette carte ?'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Ferme la boîte de dialogue sans supprimer
+              },
+              child: const Text('Non'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Carte supprimée !')),
+                );
+              },
+              child: const Text('Oui'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+  void _showdialgueAccepteCrd(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Confirmation'),
+          content: const Text('Êtes-vous sûr de vouloir Accepter cette garage ?'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Ferme la boîte de dialogue sans supprimer
+              },
+              child: const Text('Non'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Carte supprimée !')),
+                );
+              },
+              child: const Text('Oui'),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +121,9 @@ class CardExample extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
                   TextButton(
-                    onPressed: () {/* Action Delete */},
+                    onPressed: () {
+                      _showDeleteConfirmationDialog(context); // Affiche la boîte de confirmation
+                    },
                     style: TextButton.styleFrom(
                       foregroundColor: Colors.red,
                     ),
@@ -67,11 +131,23 @@ class CardExample extends StatelessWidget {
                   ),
                   const SizedBox(width: 8),
                   ElevatedButton(
-                    onPressed: () {/* Action Update */},
+                    onPressed: () {
+                      Get.to(GarageFormView());
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.teal,
                     ),
                     child: const Text('Update'),
+                  ),
+                  const SizedBox(width: 8),
+                  ElevatedButton(
+                    onPressed: () {
+                      _showdialgueAccepteCrd(context);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.teal,
+                    ),
+                    child: const Text('Accepter'),
                   ),
                 ],
               ),
